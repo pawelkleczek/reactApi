@@ -9549,9 +9549,12 @@ document.addEventListener('DOMContentLoaded', function () {
 			value: function componentWillMount() {
 				var _this2 = this;
 
-				var query = 'Obama';
-				var page = 2;
-				var size = 5;
+				var query = this.props.input;
+				var size = this.props.select;
+				var page = 1;
+				console.log(query);
+				console.log(size);
+
 				fetch('https://api.tronalddump.io/search/quote?query=' + query + '&page=' + page + '&size=' + size).then(function (resp) {
 					return resp.json();
 				}).then(function (data) {
@@ -9576,12 +9579,12 @@ document.addEventListener('DOMContentLoaded', function () {
 		}, {
 			key: 'render',
 			value: function render() {
-				var quoteList = this.state.quotes.map(function (e) {
-					return _react2.default.createElement(Quote, { quote: e.value, date: e.date });
+				var quoteList = this.state.quotes.map(function (e, i) {
+					return _react2.default.createElement(Quote, { quote: e.value, date: e.date, key: i });
 				});
 
 				return _react2.default.createElement(
-					'div',
+					'tbody',
 					null,
 					quoteList
 				);
@@ -9609,38 +9612,7 @@ document.addEventListener('DOMContentLoaded', function () {
 					_react2.default.createElement(
 						'table',
 						null,
-						_react2.default.createElement(
-							'tbody',
-							null,
-							_react2.default.createElement(
-								'tr',
-								null,
-								_react2.default.createElement('th', null),
-								_react2.default.createElement('th', null),
-								_react2.default.createElement('th', null)
-							),
-							_react2.default.createElement(
-								'tr',
-								null,
-								_react2.default.createElement('td', null),
-								_react2.default.createElement('td', null),
-								_react2.default.createElement('td', null)
-							),
-							_react2.default.createElement(
-								'tr',
-								null,
-								_react2.default.createElement('td', null),
-								_react2.default.createElement('td', null),
-								_react2.default.createElement('td', null)
-							),
-							_react2.default.createElement(
-								'tr',
-								null,
-								_react2.default.createElement('td', null),
-								_react2.default.createElement('td', null),
-								_react2.default.createElement('td', null)
-							)
-						)
+						_react2.default.createElement(Quotes, { input: this.props.input, select: this.props.select })
 					)
 				);
 			}
@@ -9662,21 +9634,29 @@ document.addEventListener('DOMContentLoaded', function () {
 			key: 'render',
 			value: function render() {
 				return _react2.default.createElement(
-					'blockquote',
+					'tr',
 					null,
 					_react2.default.createElement(
-						'p',
+						'td',
 						null,
-						this.props.quote
-					),
-					_react2.default.createElement(
-						'footer',
-						null,
-						'- ',
 						_react2.default.createElement(
-							'cite',
+							'blockquote',
 							null,
-							this.props.date
+							_react2.default.createElement(
+								'p',
+								null,
+								this.props.quote
+							),
+							_react2.default.createElement(
+								'footer',
+								null,
+								'- ',
+								_react2.default.createElement(
+									'cite',
+									null,
+									this.props.date
+								)
+							)
 						)
 					)
 				);
@@ -9694,19 +9674,21 @@ document.addEventListener('DOMContentLoaded', function () {
 
 			var _this5 = _possibleConstructorReturn(this, (SearchQuery.__proto__ || Object.getPrototypeOf(SearchQuery)).call(this, props));
 
-			_this5.handleChange = function (event) {
+			_this5.handleInputChange = function (event) {
 				_this5.setState({
-					value: event.target.value
+					inputValue: event.target.value
 				});
 			};
 
-			_this5.handleClick = function (event) {
-				event.preventDefault();
-				console.log(_this5.state.value);
+			_this5.handleSelectChange = function (event) {
+				_this5.setState({
+					selectValue: parseInt(event.target.value)
+				});
 			};
 
 			_this5.state = {
-				value: ''
+				selectValue: 5,
+				inputValue: ''
 			};
 			return _this5;
 		}
@@ -9716,14 +9698,33 @@ document.addEventListener('DOMContentLoaded', function () {
 			value: function render() {
 				return _react2.default.createElement(
 					'form',
-					null,
+					{ onSubmit: this.props.handleClick },
 					_react2.default.createElement(
 						'label',
 						null,
 						'Dump quotes:',
-						_react2.default.createElement('input', { type: 'text', value: this.state.value, onChange: this.handleChange })
+						_react2.default.createElement('input', { type: 'text', value: this.state.inputValue, onChange: this.handleInputChange })
 					),
-					_react2.default.createElement('input', { type: 'submit', value: 'Search', onClick: this.handleClick })
+					_react2.default.createElement('input', { type: 'submit', value: 'Dump' }),
+					_react2.default.createElement(
+						'select',
+						{ value: this.state.selectValue, onChange: this.handleSelectChange },
+						_react2.default.createElement(
+							'option',
+							{ value: 5 },
+							'5'
+						),
+						_react2.default.createElement(
+							'option',
+							{ value: 10 },
+							'10'
+						),
+						_react2.default.createElement(
+							'option',
+							{ value: 15 },
+							'15'
+						)
+					)
 				);
 			}
 		}]);
@@ -9731,26 +9732,54 @@ document.addEventListener('DOMContentLoaded', function () {
 		return SearchQuery;
 	}(_react2.default.Component);
 
-	var App = function (_React$Component5) {
-		_inherits(App, _React$Component5);
+	var Main = function (_React$Component5) {
+		_inherits(Main, _React$Component5);
 
-		function App() {
-			_classCallCheck(this, App);
+		function Main(props) {
+			_classCallCheck(this, Main);
 
-			return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).apply(this, arguments));
+			var _this6 = _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).call(this, props));
+
+			_this6.handleClick = function (event) {
+				event.preventDefault();
+				_this6.setState({
+					inputValue: event.target.firstElementChild.firstElementChild.value,
+					selectValue: parseInt(event.target.lastElementChild.value),
+					loading: true
+				});
+			};
+
+			_this6.state = {
+				inputValue: '',
+				selectValue: 5,
+				loading: false
+			};
+			return _this6;
 		}
 
-		_createClass(App, [{
+		_createClass(Main, [{
 			key: 'render',
 			value: function render() {
-				return _react2.default.createElement(Quotes, null);
+				if (this.state.loading) {
+					return _react2.default.createElement(
+						'div',
+						null,
+						_react2.default.createElement(SearchQuery, { handleClick: this.handleClick }),
+						_react2.default.createElement(Table, { input: this.state.inputValue, select: this.state.selectValue })
+					);
+				}
+				return _react2.default.createElement(
+					'div',
+					null,
+					_react2.default.createElement(SearchQuery, { handleClick: this.handleClick })
+				);
 			}
 		}]);
 
-		return App;
+		return Main;
 	}(_react2.default.Component);
 
-	_reactDom2.default.render(_react2.default.createElement(Quotes, null), document.getElementById('app'));
+	_reactDom2.default.render(_react2.default.createElement(Main, null), document.getElementById('app'));
 });
 
 /***/ }),
