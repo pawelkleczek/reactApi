@@ -9529,8 +9529,70 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 document.addEventListener('DOMContentLoaded', function () {
-	var Table = function (_React$Component) {
-		_inherits(Table, _React$Component);
+	var Quotes = function (_React$Component) {
+		_inherits(Quotes, _React$Component);
+
+		function Quotes(props) {
+			_classCallCheck(this, Quotes);
+
+			var _this = _possibleConstructorReturn(this, (Quotes.__proto__ || Object.getPrototypeOf(Quotes)).call(this, props));
+
+			_this.state = {
+				quotes: [],
+				loading: true
+			};
+			return _this;
+		}
+
+		_createClass(Quotes, [{
+			key: 'componentWillMount',
+			value: function componentWillMount() {
+				var _this2 = this;
+
+				var query = 'Obama';
+				var page = 2;
+				var size = 5;
+				fetch('https://api.tronalddump.io/search/quote?query=' + query + '&page=' + page + '&size=' + size).then(function (resp) {
+					return resp.json();
+				}).then(function (data) {
+
+					var quoteObjects = data._embedded.quotes.map(function (e) {
+						return e;
+					});
+
+					var quotes = quoteObjects.map(function (e) {
+						return {
+							value: e.value,
+							date: new Date(Date.parse(e.appeared_at)).toDateString()
+						};
+					});
+
+					_this2.setState({
+						quotes: quotes,
+						loading: false
+					});
+				});
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				var quoteList = this.state.quotes.map(function (e) {
+					return _react2.default.createElement(Quote, { quote: e.value, date: e.date });
+				});
+
+				return _react2.default.createElement(
+					'div',
+					null,
+					quoteList
+				);
+			}
+		}]);
+
+		return Quotes;
+	}(_react2.default.Component);
+
+	var Table = function (_React$Component2) {
+		_inherits(Table, _React$Component2);
 
 		function Table(props) {
 			_classCallCheck(this, Table);
@@ -9548,79 +9610,35 @@ document.addEventListener('DOMContentLoaded', function () {
 						'table',
 						null,
 						_react2.default.createElement(
-							'tr',
+							'tbody',
 							null,
 							_react2.default.createElement(
-								'th',
+								'tr',
 								null,
-								'1'
+								_react2.default.createElement('th', null),
+								_react2.default.createElement('th', null),
+								_react2.default.createElement('th', null)
 							),
 							_react2.default.createElement(
-								'th',
+								'tr',
 								null,
-								'2'
+								_react2.default.createElement('td', null),
+								_react2.default.createElement('td', null),
+								_react2.default.createElement('td', null)
 							),
 							_react2.default.createElement(
-								'th',
+								'tr',
 								null,
-								'3'
-							)
-						),
-						_react2.default.createElement(
-							'tr',
-							null,
-							_react2.default.createElement(
-								'td',
-								null,
-								'a'
+								_react2.default.createElement('td', null),
+								_react2.default.createElement('td', null),
+								_react2.default.createElement('td', null)
 							),
 							_react2.default.createElement(
-								'td',
+								'tr',
 								null,
-								'b'
-							),
-							_react2.default.createElement(
-								'td',
-								null,
-								'c'
-							)
-						),
-						_react2.default.createElement(
-							'tr',
-							null,
-							_react2.default.createElement(
-								'td',
-								null,
-								'd'
-							),
-							_react2.default.createElement(
-								'td',
-								null,
-								'e'
-							),
-							_react2.default.createElement(
-								'td',
-								null,
-								'f'
-							)
-						),
-						_react2.default.createElement(
-							'tr',
-							null,
-							_react2.default.createElement(
-								'td',
-								null,
-								'g'
-							),
-							_react2.default.createElement(
-								'td',
-								null,
-								'h'
-							),
-							_react2.default.createElement(
-								'td',
-								null,
-								'i'
+								_react2.default.createElement('td', null),
+								_react2.default.createElement('td', null),
+								_react2.default.createElement('td', null)
 							)
 						)
 					)
@@ -9631,7 +9649,108 @@ document.addEventListener('DOMContentLoaded', function () {
 		return Table;
 	}(_react2.default.Component);
 
-	_reactDom2.default.render(_react2.default.createElement(Table, null), document.getElementById('app'));
+	var Quote = function (_React$Component3) {
+		_inherits(Quote, _React$Component3);
+
+		function Quote(props) {
+			_classCallCheck(this, Quote);
+
+			return _possibleConstructorReturn(this, (Quote.__proto__ || Object.getPrototypeOf(Quote)).call(this, props));
+		}
+
+		_createClass(Quote, [{
+			key: 'render',
+			value: function render() {
+				return _react2.default.createElement(
+					'blockquote',
+					null,
+					_react2.default.createElement(
+						'p',
+						null,
+						this.props.quote
+					),
+					_react2.default.createElement(
+						'footer',
+						null,
+						'- ',
+						_react2.default.createElement(
+							'cite',
+							null,
+							this.props.date
+						)
+					)
+				);
+			}
+		}]);
+
+		return Quote;
+	}(_react2.default.Component);
+
+	var SearchQuery = function (_React$Component4) {
+		_inherits(SearchQuery, _React$Component4);
+
+		function SearchQuery(props) {
+			_classCallCheck(this, SearchQuery);
+
+			var _this5 = _possibleConstructorReturn(this, (SearchQuery.__proto__ || Object.getPrototypeOf(SearchQuery)).call(this, props));
+
+			_this5.handleChange = function (event) {
+				_this5.setState({
+					value: event.target.value
+				});
+			};
+
+			_this5.handleClick = function (event) {
+				event.preventDefault();
+				console.log(_this5.state.value);
+			};
+
+			_this5.state = {
+				value: ''
+			};
+			return _this5;
+		}
+
+		_createClass(SearchQuery, [{
+			key: 'render',
+			value: function render() {
+				return _react2.default.createElement(
+					'form',
+					null,
+					_react2.default.createElement(
+						'label',
+						null,
+						'Dump quotes:',
+						_react2.default.createElement('input', { type: 'text', value: this.state.value, onChange: this.handleChange })
+					),
+					_react2.default.createElement('input', { type: 'submit', value: 'Search', onClick: this.handleClick })
+				);
+			}
+		}]);
+
+		return SearchQuery;
+	}(_react2.default.Component);
+
+	var App = function (_React$Component5) {
+		_inherits(App, _React$Component5);
+
+		function App() {
+			_classCallCheck(this, App);
+
+			return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).apply(this, arguments));
+		}
+
+		_createClass(App, [{
+			key: 'render',
+			value: function render() {
+				return _react2.default.createElement(Quotes, null);
+			}
+		}]);
+
+		return App;
+	}(_react2.default.Component);
+
+	_reactDom2.default.render(_react2.default.createElement(Quotes, null), document.getElementById('app'));
 });
 
 /***/ }),
