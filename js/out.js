@@ -9538,55 +9538,48 @@ document.addEventListener('DOMContentLoaded', function () {
 			var _this = _possibleConstructorReturn(this, (Quotes.__proto__ || Object.getPrototypeOf(Quotes)).call(this, props));
 
 			_this.state = {
-				quotes: [],
-				loading: true
+				quotes: []
 			};
 			return _this;
 		}
 
 		_createClass(Quotes, [{
-			key: 'componentWillMount',
-			value: function componentWillMount() {
-				var _this2 = this;
-
-				var query = this.props.input;
-				var size = this.props.select;
-				var page = 1;
-				console.log(query);
-				console.log(size);
-
-				fetch('https://api.tronalddump.io/search/quote?query=' + query + '&page=' + page + '&size=' + size).then(function (resp) {
-					return resp.json();
-				}).then(function (data) {
-
-					var quoteObjects = data._embedded.quotes.map(function (e) {
-						return e;
-					});
-
-					var quotes = quoteObjects.map(function (e) {
-						return {
-							value: e.value,
-							date: new Date(Date.parse(e.appeared_at)).toDateString()
-						};
-					});
-
-					_this2.setState({
-						quotes: quotes,
-						loading: false
-					});
-				});
-			}
-		}, {
 			key: 'render',
 			value: function render() {
-				var quoteList = this.state.quotes.map(function (e, i) {
-					return _react2.default.createElement(Quote, { quote: e.value, date: e.date, key: i });
+				var _this2 = this;
+
+				fetch('https://api.tronalddump.io/search/quote?query=' + this.props.input + '&page=' + this.props.page + '&size=' + this.props.select).then(function (resp) {
+					if (resp.ok) {
+						return resp.json();
+					} else {
+						alert('Error, GET status: ' + resp.status);
+					}
+				}).then(function (json) {
+					if (json.total == 0) {
+						alert('No matches found, try different topic...');
+					} else {
+						var array = json._embedded.quotes.map(function (e) {
+							return {
+								value: e.value,
+								date: new Date(Date.parse(e.appeared_at)).toDateString()
+							};
+						});
+						return array;
+					}
+				}).then(function (e) {
+					return e.map(function (e, i) {
+						return _react2.default.createElement(Quote, { quote: e.value, date: e.date, key: i });
+					});
+				}).then(function (e) {
+					_this2.setState({
+						quotes: e
+					});
 				});
 
 				return _react2.default.createElement(
 					'tbody',
 					null,
-					quoteList
+					this.state.quotes
 				);
 			}
 		}]);
@@ -9594,35 +9587,8 @@ document.addEventListener('DOMContentLoaded', function () {
 		return Quotes;
 	}(_react2.default.Component);
 
-	var Table = function (_React$Component2) {
-		_inherits(Table, _React$Component2);
-
-		function Table(props) {
-			_classCallCheck(this, Table);
-
-			return _possibleConstructorReturn(this, (Table.__proto__ || Object.getPrototypeOf(Table)).call(this, props));
-		}
-
-		_createClass(Table, [{
-			key: 'render',
-			value: function render() {
-				return _react2.default.createElement(
-					'div',
-					null,
-					_react2.default.createElement(
-						'table',
-						null,
-						_react2.default.createElement(Quotes, { input: this.props.input, select: this.props.select })
-					)
-				);
-			}
-		}]);
-
-		return Table;
-	}(_react2.default.Component);
-
-	var Quote = function (_React$Component3) {
-		_inherits(Quote, _React$Component3);
+	var Quote = function (_React$Component2) {
+		_inherits(Quote, _React$Component2);
 
 		function Quote(props) {
 			_classCallCheck(this, Quote);
@@ -9664,6 +9630,72 @@ document.addEventListener('DOMContentLoaded', function () {
 		}]);
 
 		return Quote;
+	}(_react2.default.Component);
+
+	var Table = function (_React$Component3) {
+		_inherits(Table, _React$Component3);
+
+		function Table(props) {
+			_classCallCheck(this, Table);
+
+			var _this4 = _possibleConstructorReturn(this, (Table.__proto__ || Object.getPrototypeOf(Table)).call(this, props));
+
+			_this4.handleClick = function (event) {
+				if (event.target.id == 'prev' && _this4.state.page > 2) {
+					_this4.setState({
+						page: _this4.state.page - 1
+					});
+				} else if (event.target.id == 'prev' && _this4.state.page == 2) {
+					event.target.disabled = _this4.setState({
+						page: 1,
+						disabledPrev: true
+					});
+				} else if (event.target.id == 'next' && _this4.state.page == 1) {
+					_this4.setState({
+						page: 2,
+						disabledPrev: false
+					});
+				} else if (event.target.id == 'next' && _this4.state.page != 1) {
+					_this4.setState({
+						page: _this4.state.page + 1
+					});
+				}
+			};
+
+			_this4.state = {
+				page: 1,
+				disabledPrev: true,
+				disabledNext: false
+			};
+			return _this4;
+		}
+
+		_createClass(Table, [{
+			key: 'render',
+			value: function render() {
+				return _react2.default.createElement(
+					'div',
+					null,
+					_react2.default.createElement(
+						'table',
+						null,
+						_react2.default.createElement(Quotes, { input: this.props.input, select: this.props.select, page: this.state.page })
+					),
+					_react2.default.createElement(
+						'button',
+						{ onClick: this.handleClick, id: 'prev', disabled: this.state.disabledPrev },
+						'Prev'
+					),
+					_react2.default.createElement(
+						'button',
+						{ onClick: this.handleClick, id: 'next', disabled: this.state.disabledNext },
+						'Next'
+					)
+				);
+			}
+		}]);
+
+		return Table;
 	}(_react2.default.Component);
 
 	var SearchQuery = function (_React$Component4) {
