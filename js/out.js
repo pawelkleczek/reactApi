@@ -9529,66 +9529,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 document.addEventListener('DOMContentLoaded', function () {
-	var Quotes = function (_React$Component) {
-		_inherits(Quotes, _React$Component);
-
-		function Quotes(props) {
-			_classCallCheck(this, Quotes);
-
-			var _this = _possibleConstructorReturn(this, (Quotes.__proto__ || Object.getPrototypeOf(Quotes)).call(this, props));
-
-			_this.state = {
-				quotes: []
-			};
-			return _this;
-		}
-
-		_createClass(Quotes, [{
-			key: 'render',
-			value: function render() {
-				var _this2 = this;
-
-				fetch('https://api.tronalddump.io/search/quote?query=' + this.props.input + '&page=' + this.props.page + '&size=' + this.props.select).then(function (resp) {
-					if (resp.ok) {
-						return resp.json();
-					} else {
-						alert('Error, GET status: ' + resp.status);
-					}
-				}).then(function (json) {
-					if (json.total == 0) {
-						alert('No matches found, try different topic...');
-					} else {
-						var array = json._embedded.quotes.map(function (e) {
-							return {
-								value: e.value,
-								date: new Date(Date.parse(e.appeared_at)).toDateString()
-							};
-						});
-						return array;
-					}
-				}).then(function (e) {
-					return e.map(function (e, i) {
-						return _react2.default.createElement(Quote, { quote: e.value, date: e.date, key: i });
-					});
-				}).then(function (e) {
-					_this2.setState({
-						quotes: e
-					});
-				});
-
-				return _react2.default.createElement(
-					'tbody',
-					null,
-					this.state.quotes
-				);
-			}
-		}]);
-
-		return Quotes;
-	}(_react2.default.Component);
-
-	var Quote = function (_React$Component2) {
-		_inherits(Quote, _React$Component2);
+	var Quote = function (_React$Component) {
+		_inherits(Quote, _React$Component);
 
 		function Quote(props) {
 			_classCallCheck(this, Quote);
@@ -9600,29 +9542,33 @@ document.addEventListener('DOMContentLoaded', function () {
 			key: 'render',
 			value: function render() {
 				return _react2.default.createElement(
-					'tr',
+					'blockquote',
 					null,
 					_react2.default.createElement(
-						'td',
+						'p',
 						null,
+						this.props.quote
+					),
+					_react2.default.createElement(
+						'footer',
+						null,
+						'- ',
 						_react2.default.createElement(
-							'blockquote',
+							'cite',
 							null,
-							_react2.default.createElement(
-								'p',
-								null,
-								this.props.quote
-							),
-							_react2.default.createElement(
-								'footer',
-								null,
-								'- ',
-								_react2.default.createElement(
-									'cite',
-									null,
-									this.props.date
-								)
-							)
+							this.props.date
+						),
+						_react2.default.createElement('br', null),
+						_react2.default.createElement(
+							'a',
+							{ href: this.props.url, target: '_blank' },
+							'Source'
+						),
+						_react2.default.createElement(
+							'span',
+							null,
+							'Tag: ',
+							this.props.tag
 						)
 					)
 				);
@@ -9632,178 +9578,209 @@ document.addEventListener('DOMContentLoaded', function () {
 		return Quote;
 	}(_react2.default.Component);
 
-	var Table = function (_React$Component3) {
-		_inherits(Table, _React$Component3);
+	var Buttons = function (_React$Component2) {
+		_inherits(Buttons, _React$Component2);
 
-		function Table(props) {
-			_classCallCheck(this, Table);
+		function Buttons(props) {
+			_classCallCheck(this, Buttons);
 
-			var _this4 = _possibleConstructorReturn(this, (Table.__proto__ || Object.getPrototypeOf(Table)).call(this, props));
-
-			_this4.handleClick = function (event) {
-				if (event.target.id == 'prev' && _this4.state.page > 2) {
-					_this4.setState({
-						page: _this4.state.page - 1
-					});
-				} else if (event.target.id == 'prev' && _this4.state.page == 2) {
-					event.target.disabled = _this4.setState({
-						page: 1,
-						disabledPrev: true
-					});
-				} else if (event.target.id == 'next' && _this4.state.page == 1) {
-					_this4.setState({
-						page: 2,
-						disabledPrev: false
-					});
-				} else if (event.target.id == 'next' && _this4.state.page != 1) {
-					_this4.setState({
-						page: _this4.state.page + 1
-					});
-				}
-			};
-
-			_this4.state = {
-				page: 1,
-				disabledPrev: true,
-				disabledNext: false
-			};
-			return _this4;
+			return _possibleConstructorReturn(this, (Buttons.__proto__ || Object.getPrototypeOf(Buttons)).call(this, props));
 		}
 
-		_createClass(Table, [{
+		_createClass(Buttons, [{
 			key: 'render',
 			value: function render() {
 				return _react2.default.createElement(
 					'div',
 					null,
 					_react2.default.createElement(
-						'table',
-						null,
-						_react2.default.createElement(Quotes, { input: this.props.input, select: this.props.select, page: this.state.page })
-					),
-					_react2.default.createElement(
 						'button',
-						{ onClick: this.handleClick, id: 'prev', disabled: this.state.disabledPrev },
+						{ id: 'prev', onClick: this.props.prev, disabled: this.props.disablePrev },
 						'Prev'
 					),
 					_react2.default.createElement(
 						'button',
-						{ onClick: this.handleClick, id: 'next', disabled: this.state.disabledNext },
+						{ id: 'next', onClick: this.props.next, disabled: this.props.disableNext },
 						'Next'
 					)
 				);
 			}
 		}]);
 
-		return Table;
+		return Buttons;
 	}(_react2.default.Component);
 
-	var SearchQuery = function (_React$Component4) {
-		_inherits(SearchQuery, _React$Component4);
-
-		function SearchQuery(props) {
-			_classCallCheck(this, SearchQuery);
-
-			var _this5 = _possibleConstructorReturn(this, (SearchQuery.__proto__ || Object.getPrototypeOf(SearchQuery)).call(this, props));
-
-			_this5.handleInputChange = function (event) {
-				_this5.setState({
-					inputValue: event.target.value
-				});
-			};
-
-			_this5.handleSelectChange = function (event) {
-				_this5.setState({
-					selectValue: parseInt(event.target.value)
-				});
-			};
-
-			_this5.state = {
-				selectValue: 5,
-				inputValue: ''
-			};
-			return _this5;
-		}
-
-		_createClass(SearchQuery, [{
-			key: 'render',
-			value: function render() {
-				return _react2.default.createElement(
-					'form',
-					{ onSubmit: this.props.handleClick },
-					_react2.default.createElement(
-						'label',
-						null,
-						'Dump quotes:',
-						_react2.default.createElement('input', { type: 'text', value: this.state.inputValue, onChange: this.handleInputChange })
-					),
-					_react2.default.createElement('input', { type: 'submit', value: 'Dump' }),
-					_react2.default.createElement(
-						'select',
-						{ value: this.state.selectValue, onChange: this.handleSelectChange },
-						_react2.default.createElement(
-							'option',
-							{ value: 5 },
-							'5'
-						),
-						_react2.default.createElement(
-							'option',
-							{ value: 10 },
-							'10'
-						),
-						_react2.default.createElement(
-							'option',
-							{ value: 15 },
-							'15'
-						)
-					)
-				);
-			}
-		}]);
-
-		return SearchQuery;
-	}(_react2.default.Component);
-
-	var Main = function (_React$Component5) {
-		_inherits(Main, _React$Component5);
+	var Main = function (_React$Component3) {
+		_inherits(Main, _React$Component3);
 
 		function Main(props) {
 			_classCallCheck(this, Main);
 
-			var _this6 = _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).call(this, props));
+			var _this3 = _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).call(this, props));
 
-			_this6.handleClick = function (event) {
-				event.preventDefault();
-				_this6.setState({
-					inputValue: event.target.firstElementChild.firstElementChild.value,
-					selectValue: parseInt(event.target.lastElementChild.value),
-					loading: true
+			_this3.handleInputChange = function (event) {
+				_this3.setState({
+					inputValue: event.target.value
 				});
 			};
 
-			_this6.state = {
-				inputValue: '',
-				selectValue: 5,
-				loading: false
+			_this3.handleSelectChange = function (event) {
+				_this3.setState({
+					selectValue: parseInt(event.target.value)
+				});
 			};
-			return _this6;
+
+			_this3.handlePrevClick = function (event) {
+				event.preventDefault();
+				console.log('click l');
+				if (_this3.state.page > 2 && _this3.state.page < _this3.state.maxPageNumbers) {
+					_this3.setState({
+						page: _this3.state.page - 1
+					}, function () {
+						return _this3.fetch();
+					});
+				} else if (_this3.state.page > 2 && _this3.state.page == _this3.state.maxPageNumbers) {
+					_this3.setState({
+						page: _this3.state.page - 1,
+						disableNext: false
+					}, function () {
+						return _this3.fetch();
+					});
+				} else if (_this3.state.page == 2) {
+					_this3.setState({
+						page: 1,
+						disablePrev: true
+					}, function () {
+						return _this3.fetch();
+					});
+				}
+			};
+
+			_this3.handleNextClick = function (event) {
+				event.preventDefault();
+				console.log('click r');
+				if (_this3.state.page == 1) {
+					_this3.setState({
+						page: 2,
+						disablePrev: false
+					}, function () {
+						return _this3.fetch();
+					});
+				} else if (_this3.state.page > 1 && _this3.state.page != _this3.state.maxPageNumbers - 1) {
+					_this3.setState({
+						page: _this3.state.page + 1
+					}, function () {
+						return _this3.fetch();
+					});
+				} else if (_this3.state.page == _this3.state.maxPageNumbers - 1) {
+					_this3.setState({
+						page: _this3.state.page + 1,
+						disableNext: true
+					}, function () {
+						return _this3.fetch();
+					});
+				}
+			};
+
+			_this3.fetch = function () {
+				fetch('https://api.tronalddump.io/search/quote?query=' + _this3.state.inputValue + '&page=' + _this3.state.page + '&size=' + _this3.state.selectValue).then(function (resp) {
+					if (resp.ok) {
+						return resp.json();
+					} else {
+						alert('Error, status: ' + resp.status);
+						return null;
+					}
+				}).then(function (json) {
+					if (json.total == 0) {
+						alert('No matches found, try different topic...');
+						return null;
+					} else {
+						_this3.setState({
+							maxPageNumbers: Math.ceil(json.total / _this3.state.selectValue)
+						});
+						return json._embedded.quotes.map(function (e) {
+							return {
+								value: e.value,
+								date: new Date(Date.parse(e.appeared_at)).toDateString(),
+								url: e._embedded.source[0].url,
+								tag: e.tags[0]
+							};
+						});
+					}
+				}).then(function (e) {
+					return e.map(function (e, i) {
+						return _react2.default.createElement(Quote, { quote: e.value, date: e.date, url: e.url, tag: e.tag, key: i });
+					});
+				}).then(function (e) {
+					var b = e.concat(_react2.default.createElement(Buttons, { next: _this3.handleNextClick, prev: _this3.handlePrevClick, key: 'buttons', disablePrev: _this3.state.disablePrev, disableNext: _this3.state.disableNext }));
+					_this3.setState({
+						quotes: b
+					});
+				});
+			};
+
+			_this3.handleSearchClick = function (event) {
+				event.preventDefault();
+				_this3.setState({
+					inputValue: event.target.firstElementChild.firstElementChild.value,
+					selectValue: parseInt(event.target.lastElementChild.value),
+					page: 1,
+					disablePrev: true,
+					disableNext: false
+				}, function () {
+					return _this3.fetch();
+				});
+				console.log(_this3.state.maxPageNumbers);
+			};
+
+			_this3.state = {
+				selectValue: 5,
+				inputValue: '',
+				page: 1,
+				disablePrev: true,
+				disableNext: false,
+				maxPageNumbers: 1,
+				quotes: []
+			};
+			return _this3;
 		}
 
 		_createClass(Main, [{
 			key: 'render',
 			value: function render() {
-				if (this.state.loading) {
-					return _react2.default.createElement(
-						'div',
-						null,
-						_react2.default.createElement(SearchQuery, { handleClick: this.handleClick }),
-						_react2.default.createElement(Table, { input: this.state.inputValue, select: this.state.selectValue })
-					);
-				}
 				return _react2.default.createElement(
 					'div',
 					null,
-					_react2.default.createElement(SearchQuery, { handleClick: this.handleClick })
+					_react2.default.createElement(
+						'form',
+						{ onSubmit: this.handleSearchClick },
+						_react2.default.createElement(
+							'label',
+							null,
+							_react2.default.createElement('input', { type: 'text', value: this.state.inputValue, onChange: this.handleInputChange })
+						),
+						_react2.default.createElement('input', { type: 'submit', value: 'Dump' }),
+						_react2.default.createElement(
+							'select',
+							{ value: this.state.selectValue, onChange: this.handleSelectChange },
+							_react2.default.createElement(
+								'option',
+								{ value: 5 },
+								'5'
+							),
+							_react2.default.createElement(
+								'option',
+								{ value: 10 },
+								'10'
+							),
+							_react2.default.createElement(
+								'option',
+								{ value: 15 },
+								'15'
+							)
+						)
+					),
+					this.state.quotes
 				);
 			}
 		}]);
