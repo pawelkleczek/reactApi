@@ -9556,19 +9556,11 @@ document.addEventListener('DOMContentLoaded', function () {
 						_react2.default.createElement(
 							'cite',
 							null,
-							this.props.date
-						),
-						_react2.default.createElement('br', null),
-						_react2.default.createElement(
-							'a',
-							{ href: this.props.url, target: '_blank' },
-							'Source'
-						),
-						_react2.default.createElement(
-							'span',
-							null,
-							'Tag: ',
-							this.props.tag
+							_react2.default.createElement(
+								'a',
+								{ href: this.props.url, target: '_blank' },
+								this.props.date
+							)
 						)
 					)
 				);
@@ -9618,6 +9610,53 @@ document.addEventListener('DOMContentLoaded', function () {
 
 			var _this3 = _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).call(this, props));
 
+			_this3.pageClick = function (event) {
+				if (event.target.id == _this3.state.maxPageNumbers) {
+					_this3.setState({
+						page: parseInt(event.target.id),
+						disableNext: true,
+						disablePrev: false
+					}, function () {
+						return _this3.fetch();
+					});
+				} else if (event.target.id == 1) {
+					_this3.setState({
+						page: parseInt(event.target.id),
+						disablePrev: true,
+						disableNext: false
+					}, function () {
+						return _this3.fetch();
+					});
+				} else {
+					_this3.setState({
+						page: parseInt(event.target.id),
+						disablePrev: false,
+						disableNext: false
+					}, function () {
+						return _this3.fetch();
+					});
+				}
+			};
+
+			_this3.makePageNumbers = function () {
+				var pages = [];
+				if (_this3.state.maxPageNumbers != 1) {
+					console.log('on!');
+					for (var i = 1; i <= _this3.state.maxPageNumbers; i++) {
+						pages.push(_react2.default.createElement(
+							'a',
+							{ href: '#', onClick: _this3.pageClick, id: i, key: i },
+							' ',
+							i,
+							' '
+						));
+					}
+					_this3.setState({
+						pages: pages
+					});
+				}
+			};
+
 			_this3.handleInputChange = function (event) {
 				_this3.setState({
 					inputValue: event.target.value
@@ -9632,7 +9671,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 			_this3.handlePrevClick = function (event) {
 				event.preventDefault();
-				console.log('click l');
 				if (_this3.state.page > 2 && _this3.state.page < _this3.state.maxPageNumbers) {
 					_this3.setState({
 						page: _this3.state.page - 1
@@ -9658,7 +9696,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 			_this3.handleNextClick = function (event) {
 				event.preventDefault();
-				console.log('click r');
 				if (_this3.state.page == 1) {
 					_this3.setState({
 						page: 2,
@@ -9687,13 +9724,11 @@ document.addEventListener('DOMContentLoaded', function () {
 					if (resp.ok) {
 						return resp.json();
 					} else {
-						alert('Error, status: ' + resp.status);
-						return null;
+						alert('Error, status: ' + resp.status + ', message: ' + resp.message);
 					}
 				}).then(function (json) {
 					if (json.total == 0) {
 						alert('No matches found, try different topic...');
-						return null;
 					} else {
 						_this3.setState({
 							maxPageNumbers: Math.ceil(json.total / _this3.state.selectValue)
@@ -9715,6 +9750,8 @@ document.addEventListener('DOMContentLoaded', function () {
 					var b = e.concat(_react2.default.createElement(Buttons, { next: _this3.handleNextClick, prev: _this3.handlePrevClick, key: 'buttons', disablePrev: _this3.state.disablePrev, disableNext: _this3.state.disableNext }));
 					_this3.setState({
 						quotes: b
+					}, function () {
+						return _this3.makePageNumbers();
 					});
 				});
 			};
@@ -9724,13 +9761,10 @@ document.addEventListener('DOMContentLoaded', function () {
 				_this3.setState({
 					inputValue: event.target.firstElementChild.firstElementChild.value,
 					selectValue: parseInt(event.target.lastElementChild.value),
-					page: 1,
-					disablePrev: true,
-					disableNext: false
+					page: 1
 				}, function () {
 					return _this3.fetch();
 				});
-				console.log(_this3.state.maxPageNumbers);
 			};
 
 			_this3.state = {
@@ -9738,9 +9772,10 @@ document.addEventListener('DOMContentLoaded', function () {
 				inputValue: '',
 				page: 1,
 				disablePrev: true,
-				disableNext: false,
+				disableNext: true,
 				maxPageNumbers: 1,
-				quotes: []
+				quotes: [],
+				pages: []
 			};
 			return _this3;
 		}
@@ -9780,7 +9815,17 @@ document.addEventListener('DOMContentLoaded', function () {
 							)
 						)
 					),
-					this.state.quotes
+					this.state.page,
+					_react2.default.createElement(
+						'div',
+						null,
+						this.state.quotes
+					),
+					_react2.default.createElement(
+						'div',
+						null,
+						this.state.pages
+					)
 				);
 			}
 		}]);
