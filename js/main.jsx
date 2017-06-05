@@ -2,6 +2,7 @@ import React from 'react';
 import {Quote, Buttons, Search} from './components.jsx';
 
 class Main extends React.Component {
+
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -15,6 +16,46 @@ class Main extends React.Component {
 			pages: [],
 			buttons: []
 		}
+	}
+
+	fetch = () => {
+		fetch(`https://api.tronalddump.io/search/quote?query=${this.state.inputValue}&page=${this.state.activePage}&size=${this.state.selectValue}`).
+		then(resp => {
+			if(resp.ok) {
+				return resp.json();
+			} else {
+				alert('Error, status: ' + resp.status +', message: ' + resp.message);
+			}
+		}).
+		then((json) => {
+			if(json.total == 0) {
+				alert('No matches found, try different topic...');
+			} else {
+				this.setState({
+					maxPageNumbers: Math.ceil(json.total/this.state.selectValue)
+				}, () => this.keepAnEyeOnAPage());
+
+				return json._embedded.quotes.map(e => {
+					return {
+						value: e.value,
+						date: (new Date(Date.parse(e.appeared_at))).toDateString(),
+						url: e._embedded.source[0].url,
+						tag: e.tags[0]
+					}
+				});
+			}
+		}).
+		then(e => {
+			return e.map((e, i) => {
+				return <Quote quote={e.value} date={e.date} url={e.url} tag={e.tag} key={i}/>;
+			});
+		}).
+		then(e => {
+
+			this.setState({
+				quotes: e
+			}, () => this.addButtons());
+		}).catch(err => console.log(err));
 	}
 
 	pageClick = (event) => {
@@ -96,47 +137,6 @@ class Main extends React.Component {
 				activePage: this.state.activePage+1
 			}, () => this.fetch());
 
-	}
-
-	fetch = () => {
-		fetch(`https://api.tronalddump.io/search/quote?query=${this.state.inputValue}&page=${this.state.activePage}&size=${this.state.selectValue}`).
-		then(resp => {
-			if(resp.ok) {
-				return resp.json();
-			} else {
-				alert('Error, status: ' + resp.status +', message: ' + resp.message);
-			}
-		}).
-		then((json) => {
-			if(json.total == 0) {
-				alert('No matches found, try different topic...');
-			} else {
-
-				this.setState({
-					maxPageNumbers: Math.ceil(json.total/this.state.selectValue)
-				}, () => this.keepAnEyeOnAPage());
-
-				return json._embedded.quotes.map(e => {
-					return {
-						value: e.value,
-						date: (new Date(Date.parse(e.appeared_at))).toDateString(),
-						url: e._embedded.source[0].url,
-						tag: e.tags[0]
-					}
-				});
-			}
-		}).
-		then(e => {
-			return e.map((e, i) => {
-				return <Quote quote={e.value} date={e.date} url={e.url} tag={e.tag} key={i}/>;
-			});
-		}).
-		then(e => {
-
-			this.setState({
-				quotes: e
-			}, () => this.addButtons());
-		});
 	}
 
 	addButtons = () => {
