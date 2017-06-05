@@ -9510,8 +9510,6 @@ module.exports = getIteratorFn;
 "use strict";
 
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 var _react = __webpack_require__(182);
 
 var _react2 = _interopRequireDefault(_react);
@@ -9520,324 +9518,13 @@ var _reactDom = __webpack_require__(98);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
+var _main = __webpack_require__(185);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
 document.addEventListener('DOMContentLoaded', function () {
-	var Quote = function (_React$Component) {
-		_inherits(Quote, _React$Component);
 
-		function Quote(props) {
-			_classCallCheck(this, Quote);
-
-			return _possibleConstructorReturn(this, (Quote.__proto__ || Object.getPrototypeOf(Quote)).call(this, props));
-		}
-
-		_createClass(Quote, [{
-			key: 'render',
-			value: function render() {
-				return _react2.default.createElement(
-					'blockquote',
-					null,
-					_react2.default.createElement(
-						'p',
-						null,
-						this.props.quote
-					),
-					_react2.default.createElement(
-						'footer',
-						null,
-						'- ',
-						_react2.default.createElement(
-							'cite',
-							null,
-							_react2.default.createElement(
-								'a',
-								{ href: this.props.url, target: '_blank' },
-								this.props.date
-							)
-						)
-					)
-				);
-			}
-		}]);
-
-		return Quote;
-	}(_react2.default.Component);
-
-	var Buttons = function (_React$Component2) {
-		_inherits(Buttons, _React$Component2);
-
-		function Buttons(props) {
-			_classCallCheck(this, Buttons);
-
-			return _possibleConstructorReturn(this, (Buttons.__proto__ || Object.getPrototypeOf(Buttons)).call(this, props));
-		}
-
-		_createClass(Buttons, [{
-			key: 'render',
-			value: function render() {
-				return _react2.default.createElement(
-					'div',
-					null,
-					_react2.default.createElement(
-						'button',
-						{ id: 'prev', onClick: this.props.prev, disabled: this.props.disablePrev },
-						'Prev'
-					),
-					_react2.default.createElement(
-						'button',
-						{ id: 'next', onClick: this.props.next, disabled: this.props.disableNext },
-						'Next'
-					)
-				);
-			}
-		}]);
-
-		return Buttons;
-	}(_react2.default.Component);
-
-	var Main = function (_React$Component3) {
-		_inherits(Main, _React$Component3);
-
-		function Main(props) {
-			_classCallCheck(this, Main);
-
-			var _this3 = _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).call(this, props));
-
-			_this3.pageClick = function (event) {
-				event.preventDefault();
-				_this3.setState({
-					activePage: parseInt(event.target.id)
-				}, function () {
-					return _this3.fetch();
-				});
-			};
-
-			_this3.keepAnEyeOnAPage = function () {
-
-				if (_this3.state.activePage != 1 && _this3.state.activePage != _this3.state.maxPageNumbers) {
-
-					_this3.setState({
-						disableNext: false,
-						disablePrev: false
-					});
-				} else if (_this3.state.activePage == 1 && _this3.state.maxPageNumbers > _this3.state.activePage) {
-
-					_this3.setState({
-						disableNext: false,
-						disablePrev: true
-					});
-				} else if (_this3.state.activePage == 1 && _this3.state.maxPageNumbers == _this3.state.activePage) {
-
-					_this3.setState({
-						disableNext: true,
-						disablePrev: true
-					});
-				} else if (_this3.state.activePage == _this3.state.maxPageNumbers && _this3.state.maxPageNumbers > 1) {
-
-					_this3.setState({
-						disableNext: true,
-						disablePrev: false
-					});
-				}
-			};
-
-			_this3.makePageNumbers = function () {
-				var pages = [];
-				if (_this3.state.maxPageNumbers > 1) {
-					for (var i = 1; i <= _this3.state.maxPageNumbers; i++) {
-						if (_this3.state.activePage == i) {
-							pages.push(_react2.default.createElement(
-								'a',
-								{ href: '#', className: 'pages active', onClick: _this3.pageClick, id: i, key: i },
-								' ',
-								i,
-								' '
-							));
-						} else {
-							pages.push(_react2.default.createElement(
-								'a',
-								{ href: '#', className: 'pages', onClick: _this3.pageClick, id: i, key: i },
-								' ',
-								i,
-								' '
-							));
-						}
-					}
-					_this3.setState({
-						pages: pages
-					});
-				}
-			};
-
-			_this3.handleInputChange = function (event) {
-				_this3.setState({
-					inputValue: event.target.value
-				});
-			};
-
-			_this3.handleSelectChange = function (event) {
-				_this3.setState({
-					selectValue: parseInt(event.target.value)
-				});
-			};
-
-			_this3.handlePrevClick = function (event) {
-				event.preventDefault();
-				_this3.setState({
-					activePage: _this3.state.activePage - 1
-				}, function () {
-					return _this3.fetch();
-				});
-			};
-
-			_this3.handleNextClick = function (event) {
-				event.preventDefault();
-				_this3.setState({
-					activePage: _this3.state.activePage + 1
-				}, function () {
-					return _this3.fetch();
-				});
-			};
-
-			_this3.fetch = function () {
-				fetch('https://api.tronalddump.io/search/quote?query=' + _this3.state.inputValue + '&page=' + _this3.state.activePage + '&size=' + _this3.state.selectValue).then(function (resp) {
-					if (resp.ok) {
-						return resp.json();
-					} else {
-						alert('Error, status: ' + resp.status + ', message: ' + resp.message);
-					}
-				}).then(function (json) {
-					if (json.total == 0) {
-						alert('No matches found, try different topic...');
-					} else {
-
-						_this3.setState({
-							maxPageNumbers: Math.ceil(json.total / _this3.state.selectValue)
-						}, function () {
-							return _this3.keepAnEyeOnAPage();
-						});
-
-						return json._embedded.quotes.map(function (e) {
-							return {
-								value: e.value,
-								date: new Date(Date.parse(e.appeared_at)).toDateString(),
-								url: e._embedded.source[0].url,
-								tag: e.tags[0]
-							};
-						});
-					}
-				}).then(function (e) {
-					return e.map(function (e, i) {
-						return _react2.default.createElement(Quote, { quote: e.value, date: e.date, url: e.url, tag: e.tag, key: i });
-					});
-				}).then(function (e) {
-
-					_this3.setState({
-						quotes: e
-					}, function () {
-						return _this3.addButtons();
-					});
-				});
-			};
-
-			_this3.addButtons = function () {
-				if (_this3.state.maxPageNumbers > 1) {
-					_this3.setState({
-						buttons: _react2.default.createElement(Buttons, { next: _this3.handleNextClick, prev: _this3.handlePrevClick, key: 'buttons', disablePrev: _this3.state.disablePrev, disableNext: _this3.state.disableNext })
-					}, function () {
-						return _this3.makePageNumbers();
-					});
-				}
-			};
-
-			_this3.handleSearchClick = function (event) {
-				event.preventDefault();
-				_this3.setState({
-					inputValue: event.target.firstElementChild.firstElementChild.value,
-					selectValue: parseInt(event.target.lastElementChild.value),
-					activePage: 1,
-					maxPageNumbers: 1
-				}, function () {
-					return _this3.fetch();
-				});
-			};
-
-			_this3.state = {
-				selectValue: 5,
-				inputValue: '',
-				activePage: 1,
-				disablePrev: true,
-				disableNext: true,
-				maxPageNumbers: 1,
-				quotes: [],
-				pages: [],
-				buttons: ''
-			};
-			return _this3;
-		}
-
-		_createClass(Main, [{
-			key: 'render',
-			value: function render() {
-				return _react2.default.createElement(
-					'div',
-					null,
-					_react2.default.createElement(
-						'form',
-						{ onSubmit: this.handleSearchClick },
-						_react2.default.createElement(
-							'label',
-							null,
-							_react2.default.createElement('input', { type: 'text', value: this.state.inputValue, onChange: this.handleInputChange })
-						),
-						_react2.default.createElement('input', { type: 'submit', value: 'Dump' }),
-						_react2.default.createElement(
-							'select',
-							{ value: this.state.selectValue, onChange: this.handleSelectChange },
-							_react2.default.createElement(
-								'option',
-								{ value: 5 },
-								'5'
-							),
-							_react2.default.createElement(
-								'option',
-								{ value: 10 },
-								'10'
-							),
-							_react2.default.createElement(
-								'option',
-								{ value: 15 },
-								'15'
-							)
-						)
-					),
-					this.state.activePage,
-					_react2.default.createElement(
-						'div',
-						null,
-						this.state.quotes,
-						this.state.buttons
-					),
-					_react2.default.createElement(
-						'div',
-						null,
-						this.state.pages
-					)
-				);
-			}
-		}]);
-
-		return Main;
-	}(_react2.default.Component);
-
-	_reactDom2.default.render(_react2.default.createElement(Main, null), document.getElementById('app'));
+       _reactDom2.default.render(_react2.default.createElement(_main.Main, null), document.getElementById('app'));
 });
 
 /***/ }),
@@ -22821,6 +22508,398 @@ module.exports = __webpack_require__(19);
 __webpack_require__(81);
 module.exports = __webpack_require__(80);
 
+
+/***/ }),
+/* 184 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Search = exports.Buttons = exports.Quote = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(182);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Quote = function (_React$Component) {
+	_inherits(Quote, _React$Component);
+
+	function Quote(props) {
+		_classCallCheck(this, Quote);
+
+		return _possibleConstructorReturn(this, (Quote.__proto__ || Object.getPrototypeOf(Quote)).call(this, props));
+	}
+
+	_createClass(Quote, [{
+		key: 'render',
+		value: function render() {
+			return _react2.default.createElement(
+				'blockquote',
+				null,
+				_react2.default.createElement(
+					'p',
+					null,
+					this.props.quote
+				),
+				_react2.default.createElement(
+					'footer',
+					null,
+					'- ',
+					_react2.default.createElement(
+						'cite',
+						null,
+						_react2.default.createElement(
+							'a',
+							{ href: this.props.url, target: '_blank' },
+							this.props.date
+						)
+					)
+				)
+			);
+		}
+	}]);
+
+	return Quote;
+}(_react2.default.Component);
+
+var Buttons = function (_React$Component2) {
+	_inherits(Buttons, _React$Component2);
+
+	function Buttons(props) {
+		_classCallCheck(this, Buttons);
+
+		return _possibleConstructorReturn(this, (Buttons.__proto__ || Object.getPrototypeOf(Buttons)).call(this, props));
+	}
+
+	_createClass(Buttons, [{
+		key: 'render',
+		value: function render() {
+			return _react2.default.createElement(
+				'div',
+				null,
+				_react2.default.createElement(
+					'button',
+					{ id: 'prev', onClick: this.props.prev, disabled: this.props.disablePrev },
+					'Prev'
+				),
+				_react2.default.createElement(
+					'button',
+					{ id: 'next', onClick: this.props.next, disabled: this.props.disableNext },
+					'Next'
+				)
+			);
+		}
+	}]);
+
+	return Buttons;
+}(_react2.default.Component);
+
+var Search = function (_React$Component3) {
+	_inherits(Search, _React$Component3);
+
+	function Search(props) {
+		_classCallCheck(this, Search);
+
+		return _possibleConstructorReturn(this, (Search.__proto__ || Object.getPrototypeOf(Search)).call(this, props));
+	}
+
+	_createClass(Search, [{
+		key: 'render',
+		value: function render() {
+			return _react2.default.createElement(
+				'form',
+				{ onSubmit: this.props.submit },
+				_react2.default.createElement(
+					'label',
+					null,
+					_react2.default.createElement('input', { type: 'text', value: this.props.input, onChange: this.props.inputChange })
+				),
+				_react2.default.createElement('input', { type: 'submit', value: 'Dump' }),
+				_react2.default.createElement(
+					'select',
+					{ value: this.props.select, onChange: this.props.selectChange },
+					_react2.default.createElement(
+						'option',
+						{ value: 5 },
+						'5'
+					),
+					_react2.default.createElement(
+						'option',
+						{ value: 10 },
+						'10'
+					),
+					_react2.default.createElement(
+						'option',
+						{ value: 15 },
+						'15'
+					)
+				)
+			);
+		}
+	}]);
+
+	return Search;
+}(_react2.default.Component);
+
+exports.Quote = Quote;
+exports.Buttons = Buttons;
+exports.Search = Search;
+
+/***/ }),
+/* 185 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Main = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(182);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _components = __webpack_require__(184);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Main = function (_React$Component) {
+	_inherits(Main, _React$Component);
+
+	function Main(props) {
+		_classCallCheck(this, Main);
+
+		var _this = _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).call(this, props));
+
+		_this.pageClick = function (event) {
+			event.preventDefault();
+			_this.setState({
+				activePage: parseInt(event.target.id)
+			}, function () {
+				return _this.fetch();
+			});
+		};
+
+		_this.keepAnEyeOnAPage = function () {
+
+			if (_this.state.activePage != 1 && _this.state.activePage != _this.state.maxPageNumbers) {
+
+				_this.setState({
+					disableNext: false,
+					disablePrev: false
+				});
+			} else if (_this.state.activePage == 1 && _this.state.maxPageNumbers > _this.state.activePage) {
+
+				_this.setState({
+					disableNext: false,
+					disablePrev: true
+				});
+			} else if (_this.state.activePage == 1 && _this.state.maxPageNumbers == _this.state.activePage) {
+
+				_this.setState({
+					disableNext: true,
+					disablePrev: true
+				});
+			} else if (_this.state.activePage == _this.state.maxPageNumbers && _this.state.maxPageNumbers > 1) {
+
+				_this.setState({
+					disableNext: true,
+					disablePrev: false
+				});
+			}
+		};
+
+		_this.makePageNumbers = function () {
+			var pages = [];
+			if (_this.state.maxPageNumbers > 1) {
+				for (var i = 1; i <= _this.state.maxPageNumbers; i++) {
+					if (_this.state.activePage == i) {
+						pages.push(_react2.default.createElement(
+							'a',
+							{ href: '#', className: 'pages active', onClick: _this.pageClick, id: i, key: i },
+							' ',
+							i,
+							' '
+						));
+					} else {
+						pages.push(_react2.default.createElement(
+							'a',
+							{ href: '#', className: 'pages', onClick: _this.pageClick, id: i, key: i },
+							' ',
+							i,
+							' '
+						));
+					}
+				}
+				_this.setState({
+					pages: pages
+				});
+			}
+		};
+
+		_this.handleInputChange = function (event) {
+			_this.setState({
+				inputValue: event.target.value
+			});
+		};
+
+		_this.handleSelectChange = function (event) {
+			_this.setState({
+				selectValue: parseInt(event.target.value)
+			});
+		};
+
+		_this.handlePrevClick = function (event) {
+			event.preventDefault();
+			_this.setState({
+				activePage: _this.state.activePage - 1
+			}, function () {
+				return _this.fetch();
+			});
+		};
+
+		_this.handleNextClick = function (event) {
+			event.preventDefault();
+			_this.setState({
+				activePage: _this.state.activePage + 1
+			}, function () {
+				return _this.fetch();
+			});
+		};
+
+		_this.fetch = function () {
+			fetch('https://api.tronalddump.io/search/quote?query=' + _this.state.inputValue + '&page=' + _this.state.activePage + '&size=' + _this.state.selectValue).then(function (resp) {
+				if (resp.ok) {
+					return resp.json();
+				} else {
+					alert('Error, status: ' + resp.status + ', message: ' + resp.message);
+				}
+			}).then(function (json) {
+				if (json.total == 0) {
+					alert('No matches found, try different topic...');
+				} else {
+
+					_this.setState({
+						maxPageNumbers: Math.ceil(json.total / _this.state.selectValue)
+					}, function () {
+						return _this.keepAnEyeOnAPage();
+					});
+
+					return json._embedded.quotes.map(function (e) {
+						return {
+							value: e.value,
+							date: new Date(Date.parse(e.appeared_at)).toDateString(),
+							url: e._embedded.source[0].url,
+							tag: e.tags[0]
+						};
+					});
+				}
+			}).then(function (e) {
+				return e.map(function (e, i) {
+					return _react2.default.createElement(_components.Quote, { quote: e.value, date: e.date, url: e.url, tag: e.tag, key: i });
+				});
+			}).then(function (e) {
+
+				_this.setState({
+					quotes: e
+				}, function () {
+					return _this.addButtons();
+				});
+			});
+		};
+
+		_this.addButtons = function () {
+			if (_this.state.maxPageNumbers > 1) {
+				_this.setState({
+					buttons: _react2.default.createElement(_components.Buttons, { next: _this.handleNextClick, prev: _this.handlePrevClick, key: 'buttons', disablePrev: _this.state.disablePrev, disableNext: _this.state.disableNext })
+				}, function () {
+					return _this.makePageNumbers();
+				});
+			}
+		};
+
+		_this.handleSearchClick = function (event) {
+			event.preventDefault();
+			_this.setState({
+				inputValue: event.target.firstElementChild.firstElementChild.value,
+				selectValue: parseInt(event.target.lastElementChild.value),
+				activePage: 1,
+				disablePrev: true,
+				disableNext: true,
+				maxPageNumbers: 1,
+				quotes: [],
+				pages: [],
+				buttons: []
+			}, function () {
+				return _this.fetch();
+			});
+		};
+
+		_this.state = {
+			selectValue: 5,
+			inputValue: '',
+			activePage: 1,
+			disablePrev: true,
+			disableNext: true,
+			maxPageNumbers: 1,
+			quotes: [],
+			pages: [],
+			buttons: []
+		};
+		return _this;
+	}
+
+	_createClass(Main, [{
+		key: 'render',
+		value: function render() {
+			return _react2.default.createElement(
+				'div',
+				null,
+				_react2.default.createElement(_components.Search, { submit: this.handleSearchClick, input: this.state.inputValue, select: this.state.selectValue, inputChange: this.handleInputChange, selectChange: this.handleSelectChange }),
+				this.state.activePage,
+				_react2.default.createElement(
+					'div',
+					null,
+					this.state.quotes,
+					this.state.buttons
+				),
+				_react2.default.createElement(
+					'div',
+					null,
+					this.state.pages
+				)
+			);
+		}
+	}]);
+
+	return Main;
+}(_react2.default.Component);
+
+exports.Main = Main;
 
 /***/ })
 /******/ ]);
