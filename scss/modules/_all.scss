@@ -1,26 +1,3 @@
-$cols: 12;
-
-$width-base: (100%/$cols);
-
-%clearfix {
-	&:before, &:after {
-		display: table;
-		content: '';
-		clear: both;
-	}
-}
-
-.baba_z_radomia {
-//i facet od karpia
-	width: 100%;
-	max-width: 80rem;
-}
-
-.stol {
-	@extend %clearfix;
-	margin-bottom: 10px;
-}
-
 * {
 	margin: 0;
     padding: 0;
@@ -28,22 +5,13 @@ $width-base: (100%/$cols);
     font-family: $main-font;
 }
 
-[class*='col-'] {
-	float: left;
-	min-height: 1px;
-	width: 100%;
-	// gutter
-	padding: 5px;
+body {
+	background-color: rgba(45,183,245, .3);
 }
 
-@media (min-width: 30rem) {
-	@for $i from 1 through $cols {
-		.col-#{$i} {
-			width: $width-base*$i;
-		}
-	}
-}
-
-table {
-	border: 2px dashed hotpink;
+.container {
+	width: 900px;
+	min-height: 700px;
+	margin: 0 auto;
+	background-color: white;
 }

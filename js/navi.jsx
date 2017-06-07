@@ -9,12 +9,12 @@ class Navi extends React.Component {
 	}
 	render() {
 		return (
-			<div>
+			<div className='container'>
 				<Menu mode='horizontal' className='nav-bar'>
-					<Item key="1"><IndexLink to='/'>Main</IndexLink></Item>
-					<Item key="2"><IndexLink to='/movies'>Movies</IndexLink></Item>
-					<Item key="3"><IndexLink to='/tronald'>Tronald</IndexLink></Item>
-					<Item key="4"><IndexLink to='/contact'>Contact</IndexLink></Item>
+					<Item key="1"><IndexLink className='navi-link' to='/'>Main</IndexLink></Item>
+					<Item key="2"><IndexLink className='navi-link' to='/movies'>Movies</IndexLink></Item>
+					<Item key="3"><IndexLink className='navi-link' to='/tronald'>Tronald</IndexLink></Item>
+					<Item key="4"><IndexLink className='navi-link' to='/contact'>Contact</IndexLink></Item>
 				</Menu>
 				{this.props.children}
 			</div>

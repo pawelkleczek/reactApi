@@ -22,7 +22,7 @@ class Buttons extends React.Component {
 	}
 	render() {
 		return (
-			<div>
+			<div className='tronald_page-buttons'>
 				<button id='prev' onClick={this.props.prev} disabled={this.props.disablePrev}>Prev</button>
 				<button id='next' onClick={this.props.next} disabled={this.props.disableNext}>Next</button>
 			</div>
@@ -36,11 +36,9 @@ class Search extends React.Component {
 	}
 	render() {
 		return (
-			<form onSubmit={this.props.submit}>
-				<label>
-					<input type='text' value={this.props.input} onChange={this.props.inputChange} />
-				</label>
-				<input type="submit" value="Dump" />
+			<form onSubmit={this.props.submit} className='quotes_search-form'>
+				<input type='text' value={this.props.input} onChange={this.props.inputChange} />
+				<button type="submit">Dump!</button>
 				<select value={this.props.select} onChange={this.props.selectChange}>
 					<option value={5}>5</option>
 					<option value={10}>10</option>

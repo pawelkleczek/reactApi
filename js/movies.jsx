@@ -63,11 +63,11 @@ class MoviesTable extends React.Component {
 
 	render() {
 		return (
-			<div>
-				<h1>All Studio Ghibli Anime Movies</h1>
-
-				<button onClick={this.handleClick}>Szukaj filmów</button>
-
+			<div className='movies'>
+				<div className='clearfix'>
+					<h1 className='movies-header'>Studio Ghibli Filmy Anime</h1>
+					<button onClick={this.handleClick} className='movies-button'>Szukaj filmów</button>
+				</div>
 
 				{ this.state.movies ? <ReactTable
 					data={this.state.movies}

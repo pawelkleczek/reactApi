@@ -6,9 +6,22 @@ class Main extends React.Component {
 	}
 	render() {
 		return (
-			<div>
+			<div className='main'>
 				<h1>Witaj, świecie!</h1>
-				<p>To jest przykładowa aplikacja napisana w React. Łączy się z API dwóch serwisów: tronalddump.io i ghibliapi.herokuapp.com i wyświetla cytaty i listę wszystkich filmów wytwórni. W cytatach można korzystać z wyszukiwarki. Po naciśnięciu przycisku 'Dump' aplikacja łączy się z api, zaciągając cytaty na wybrany temat. Renderowane są przyciski 'prev next', oraz liczba stron. Lista filmów jest stała i nie podlega zmianom. Filmy jednak, w odróżnieniu od cytatów, wysyłane są również do podręcznej pamięci przeglądarki - localStorage. Tylko za pierwszym wywołaniem dojdzie do połączenia z Api. Po odświeżeniu strony aplikacja będzie już wyświetlać listę filmów zaciągając je z pamięci localStorage. W zakładce z filmami użyta została tabela rc-table umożliwiająca w szybki i prosty sposób stworzenie funkcjonalnej tabeli. Nawigacja to również komponent reactowy - rc-menu. Wyświetlanie cytatów nie korzysta z żadnych predefiniowanych komponentów i zajęło twórcy najwięcej pupo-godzin :)</p>
+				<h2>To jest przykładowa aplikacja wykorzystująca <img src='img/react-logo.png' /></h2>
+
+			<p>
+				Łączy się z API dwóch serwisów: <span className='main_text-deco'><a href='http://tronalddump.io' target='_blank'>tronalddump.io</a></span> i <span className='main_text-deco'><a href='http://ghibliapi.herokuapp.com' target='_blank'>ghibliapi.herokuapp.com</a></span> i wyświetla kolejno cytaty oraz listę filmów.
+			</p>
+			<p>
+				W cytatach można korzystać z wyszukiwarki. Po naciśnięciu przycisku <span className='main_text-deco'>'Dump'</span> aplikacja łączy się z api, zaciągając cytaty na wybrany temat. Renderowane są przyciski <span className='main_text-deco'>'prev next'</span>, oraz liczba stron. Lista filmów jest stała i nie podlega zmianom.
+			</p>
+			<p>
+				Filmy jednak, w odróżnieniu od cytatów, wysyłane są również do podręcznej pamięci przeglądarki - <span className='main_text-deco'>localStorage</span>. Tylko za pierwszym wywołaniem dojdzie do połączenia z Api. Po odświeżeniu strony aplikacja będzie już wyświetlać listę filmów zaciągając je z pamięci localStorage.
+			</p>
+			<p>
+				W zakładce z filmami użyta została tabela <span className='main_text-deco'>rc-table</span> umożliwiająca w szybki i prosty sposób stworzenie funkcjonalnej tabeli. Nawigacja to również komponent reactowy - <span className='main_text-deco'>rc-menu</span>. Wyświetlanie cytatów nie korzysta z żadnych predefiniowanych komponentów i zajęło twórcy najwięcej pupo-godzin :)
+			</p>
 			</div>
 		)
 	}

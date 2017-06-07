@@ -14,8 +14,25 @@ class TronaldDump extends React.Component {
 			maxPageNumbers: 1,
 			quotes: null,
 			pages: null,
-			buttons: null
+			buttons: null,
+			tags: null
 		}
+	}
+	componentDidMount() {
+		fetch('https://api.tronalddump.io/tags').
+		then(resp => resp.json()).
+		then(e => {
+			this.setState({
+				tags: e._embedded.map((e, i) => {
+					if (i % 2 == 0) {
+					return <span className='tag-different'>{e}</span>;
+					} else {
+					return <span>{e}</span>;
+					}
+				})
+			}, () => console.log(this.state.tags));
+		}
+		).catch(err => alert(err));
 	}
 
 	fetch = () => {
@@ -169,7 +186,7 @@ class TronaldDump extends React.Component {
 	handleSearchClick = (event) => {
 		event.preventDefault();
 		this.setState({
-			inputValue: event.target.firstElementChild.firstElementChild.value,
+			inputValue: event.target.firstElementChild.value,
 			selectValue: parseInt(event.target.lastElementChild.value),
 			activePage: 1,
 			disablePrev: true,
@@ -182,16 +199,29 @@ class TronaldDump extends React.Component {
 	}
 
 	render() {
-		return (
-			<div>
-				<Search submit={this.handleSearchClick} input={this.state.inputValue} select={this.state.selectValue} inputChange={this.handleInputChange} selectChange={this.handleSelectChange} />
+		if(this.state.quotes) {
+			return (
+				<div className='quotes'>
+					<Search submit={this.handleSearchClick} input={this.state.inputValue} select={this.state.selectValue} inputChange={this.handleInputChange} selectChange={this.handleSelectChange} />
 
-				{this.state.quotes}
-				{this.state.buttons}
-				{this.state.pages}
+					{this.state.quotes}
+					{this.state.buttons}
+					<div className='all-pages'>
+					{this.state.pages}
+					</div>
+				</div>
+			)
+		} else {
+			return (
+				<div className='quotes'>
+					<Search submit={this.handleSearchClick} input={this.state.inputValue} select={this.state.selectValue} inputChange={this.handleInputChange} selectChange={this.handleSelectChange} />
 
-			</div>
-		)
+
+					{this.state.tags && <p className='tags'>Możliwe wyszukania: {this.state.tags} </p>}
+
+				</div>
+			)
+		}
 	}
 }
 
