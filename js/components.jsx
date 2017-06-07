@@ -51,27 +51,6 @@ class Search extends React.Component {
 	}
 }
 
-class Navi extends React.Component {
-	constructor(props) {
-		super(props);
-	}
-	render() {
-		return (
-			<nav className="menu">
-			    <ul>
-				    <li><a href="#">Item 1</a></li>
-				    <li><a href="#">Item 2</a></li>
-		        	<li><a href="#">Item 3</a></li>
-			       	<li><a href="#">Item 4</a></li>
-			    </ul>
-			</nav>
-		)
-	}
-}
-
-
-
 export {Quote};
 export {Buttons};
 export {Search};
-export {Navi};

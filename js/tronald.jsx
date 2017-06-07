@@ -189,9 +189,7 @@ class TronaldDump extends React.Component {
 				{this.state.quotes}
 				{this.state.buttons}
 				{this.state.pages}
-				<h1>TRONALD!</h1>
-				<h1>TRONALD!</h1>
-				<h1>TRONALD!</h1>
+
 			</div>
 		)
 	}

@@ -14631,6 +14631,8 @@ var _tronald = __webpack_require__(171);
 
 var _movies = __webpack_require__(169);
 
+var _contact = __webpack_require__(362);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -14659,7 +14661,8 @@ var App = function (_React$Component) {
 					{ path: '/', component: _navi.Navi },
 					_react2.default.createElement(_reactRouter.IndexRoute, { component: _main.Main }),
 					_react2.default.createElement(_reactRouter.Route, { path: '/tronald', component: _tronald.TronaldDump }),
-					_react2.default.createElement(_reactRouter.Route, { path: '/movies', component: _movies.MoviesTable })
+					_react2.default.createElement(_reactRouter.Route, { path: '/movies', component: _movies.MoviesTable }),
+					_react2.default.createElement(_reactRouter.Route, { path: '/contact', component: _contact.Contact })
 				)
 			);
 		}
@@ -15538,7 +15541,7 @@ module.exports = exports['default'];
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.Navi = exports.Search = exports.Buttons = exports.Quote = undefined;
+exports.Search = exports.Buttons = exports.Quote = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -15674,72 +15677,9 @@ var Search = function (_React$Component3) {
 	return Search;
 }(_react2.default.Component);
 
-var Navi = function (_React$Component4) {
-	_inherits(Navi, _React$Component4);
-
-	function Navi(props) {
-		_classCallCheck(this, Navi);
-
-		return _possibleConstructorReturn(this, (Navi.__proto__ || Object.getPrototypeOf(Navi)).call(this, props));
-	}
-
-	_createClass(Navi, [{
-		key: 'render',
-		value: function render() {
-			return _react2.default.createElement(
-				'nav',
-				{ className: 'menu' },
-				_react2.default.createElement(
-					'ul',
-					null,
-					_react2.default.createElement(
-						'li',
-						null,
-						_react2.default.createElement(
-							'a',
-							{ href: '#' },
-							'Item 1'
-						)
-					),
-					_react2.default.createElement(
-						'li',
-						null,
-						_react2.default.createElement(
-							'a',
-							{ href: '#' },
-							'Item 2'
-						)
-					),
-					_react2.default.createElement(
-						'li',
-						null,
-						_react2.default.createElement(
-							'a',
-							{ href: '#' },
-							'Item 3'
-						)
-					),
-					_react2.default.createElement(
-						'li',
-						null,
-						_react2.default.createElement(
-							'a',
-							{ href: '#' },
-							'Item 4'
-						)
-					)
-				)
-			);
-		}
-	}]);
-
-	return Navi;
-}(_react2.default.Component);
-
 exports.Quote = Quote;
 exports.Buttons = Buttons;
 exports.Search = Search;
-exports.Navi = Navi;
 
 /***/ }),
 /* 168 */
@@ -15782,21 +15722,15 @@ var Main = function (_React$Component) {
 			return _react2.default.createElement(
 				'div',
 				null,
-				'Hello, Jack',
 				_react2.default.createElement(
 					'h1',
 					null,
-					'Main'
+					'Witaj, \u015Bwiecie!'
 				),
 				_react2.default.createElement(
-					'h1',
+					'p',
 					null,
-					'Main'
-				),
-				_react2.default.createElement(
-					'h1',
-					null,
-					'Main'
+					'To jest przyk\u0142adowa aplikacja napisana w React. \u0141\u0105czy si\u0119 z API dw\xF3ch serwis\xF3w: tronalddump.io i ghibliapi.herokuapp.com i wy\u015Bwietla cytaty i list\u0119 wszystkich film\xF3w wytw\xF3rni. W cytatach mo\u017Cna korzysta\u0107 z wyszukiwarki. Po naci\u015Bni\u0119ciu przycisku \'Dump\' aplikacja \u0142\u0105czy si\u0119 z api, zaci\u0105gaj\u0105c cytaty na wybrany temat. Renderowane s\u0105 przyciski \'prev next\', oraz liczba stron. Lista film\xF3w jest sta\u0142a i nie podlega zmianom. Filmy jednak, w odr\xF3\u017Cnieniu od cytat\xF3w, wysy\u0142ane s\u0105 r\xF3wnie\u017C do podr\u0119cznej pami\u0119ci przegl\u0105darki - localStorage. Tylko za pierwszym wywo\u0142aniem dojdzie do po\u0142\u0105czenia z Api. Po od\u015Bwie\u017Ceniu strony aplikacja b\u0119dzie ju\u017C wy\u015Bwietla\u0107 list\u0119 film\xF3w zaci\u0105gaj\u0105c je z pami\u0119ci localStorage. W zak\u0142adce z filmami u\u017Cyta zosta\u0142a tabela rc-table umo\u017Cliwiaj\u0105ca w szybki i prosty spos\xF3b stworzenie funkcjonalnej tabeli. Nawigacja to r\xF3wnie\u017C komponent reactowy - rc-menu. Wy\u015Bwietlanie cytat\xF3w nie korzysta z \u017Cadnych predefiniowanych komponent\xF3w i zaj\u0119\u0142o tw\xF3rcy najwi\u0119cej pupo-godzin :)'
 				)
 			);
 		}
@@ -15988,35 +15922,49 @@ var Navi = function (_React$Component) {
 		key: 'render',
 		value: function render() {
 			return _react2.default.createElement(
-				_rcMenu2.default,
-				{ mode: 'horizontal', className: 'nav-bar' },
+				'div',
+				null,
 				_react2.default.createElement(
-					_rcMenu.Item,
-					{ key: '1' },
+					_rcMenu2.default,
+					{ mode: 'horizontal', className: 'nav-bar' },
 					_react2.default.createElement(
-						_reactRouter.Link,
-						{ to: '/' },
-						'Main'
+						_rcMenu.Item,
+						{ key: '1' },
+						_react2.default.createElement(
+							_reactRouter.IndexLink,
+							{ to: '/' },
+							'Main'
+						)
+					),
+					_react2.default.createElement(
+						_rcMenu.Item,
+						{ key: '2' },
+						_react2.default.createElement(
+							_reactRouter.IndexLink,
+							{ to: '/movies' },
+							'Movies'
+						)
+					),
+					_react2.default.createElement(
+						_rcMenu.Item,
+						{ key: '3' },
+						_react2.default.createElement(
+							_reactRouter.IndexLink,
+							{ to: '/tronald' },
+							'Tronald'
+						)
+					),
+					_react2.default.createElement(
+						_rcMenu.Item,
+						{ key: '4' },
+						_react2.default.createElement(
+							_reactRouter.IndexLink,
+							{ to: '/contact' },
+							'Contact'
+						)
 					)
 				),
-				_react2.default.createElement(
-					_rcMenu.Item,
-					{ key: '2' },
-					_react2.default.createElement(
-						_reactRouter.Link,
-						{ to: '/movies' },
-						'Movies'
-					)
-				),
-				_react2.default.createElement(
-					_rcMenu.Item,
-					{ key: '3' },
-					_react2.default.createElement(
-						_reactRouter.Link,
-						{ to: '/tronald' },
-						'Tronald'
-					)
-				)
+				this.props.children
 			);
 		}
 	}]);
@@ -16261,22 +16209,7 @@ var TronaldDump = function (_React$Component) {
 				_react2.default.createElement(_components.Search, { submit: this.handleSearchClick, input: this.state.inputValue, select: this.state.selectValue, inputChange: this.handleInputChange, selectChange: this.handleSelectChange }),
 				this.state.quotes,
 				this.state.buttons,
-				this.state.pages,
-				_react2.default.createElement(
-					'h1',
-					null,
-					'TRONALD!'
-				),
-				_react2.default.createElement(
-					'h1',
-					null,
-					'TRONALD!'
-				),
-				_react2.default.createElement(
-					'h1',
-					null,
-					'TRONALD!'
-				)
+				this.state.pages
 			);
 		}
 	}]);
@@ -37523,6 +37456,71 @@ module.exports = function (str) {
 __webpack_require__(163);
 module.exports = __webpack_require__(162);
 
+
+/***/ }),
+/* 362 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Contact = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(3);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Contact = function (_React$Component) {
+	_inherits(Contact, _React$Component);
+
+	function Contact(props) {
+		_classCallCheck(this, Contact);
+
+		return _possibleConstructorReturn(this, (Contact.__proto__ || Object.getPrototypeOf(Contact)).call(this, props));
+	}
+
+	_createClass(Contact, [{
+		key: 'render',
+		value: function render() {
+			return _react2.default.createElement(
+				'div',
+				null,
+				_react2.default.createElement(
+					'h1',
+					null,
+					'Pawe\u0142 K\u0142eczek'
+				),
+				_react2.default.createElement(
+					'h2',
+					null,
+					'pa.vel.kleczek@gmail.com'
+				),
+				_react2.default.createElement(
+					'h2',
+					null,
+					'502 631 476'
+				)
+			);
+		}
+	}]);
+
+	return Contact;
+}(_react2.default.Component);
+
+exports.Contact = Contact;
 
 /***/ })
 /******/ ]);

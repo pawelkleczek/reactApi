@@ -1,6 +1,6 @@
 import React from 'react';
 import Menu, { SubMenu, Item } from 'rc-menu';
-import { Link } from 'react-router';
+import { IndexLink } from 'react-router';
 
 
 class Navi extends React.Component {
@@ -9,11 +9,15 @@ class Navi extends React.Component {
 	}
 	render() {
 		return (
-			<Menu mode='horizontal' className='nav-bar'>
-				<Item key="1"><Link to='/'>Main</Link></Item>
-				<Item key="2"><Link to='/movies'>Movies</Link></Item>
-				<Item key="3"><Link to='/tronald'>Tronald</Link></Item>
-			</Menu>
+			<div>
+				<Menu mode='horizontal' className='nav-bar'>
+					<Item key="1"><IndexLink to='/'>Main</IndexLink></Item>
+					<Item key="2"><IndexLink to='/movies'>Movies</IndexLink></Item>
+					<Item key="3"><IndexLink to='/tronald'>Tronald</IndexLink></Item>
+					<Item key="4"><IndexLink to='/contact'>Contact</IndexLink></Item>
+				</Menu>
+				{this.props.children}
+			</div>
 		)
 	}
 }
