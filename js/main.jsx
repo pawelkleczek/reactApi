@@ -6,10 +6,10 @@ class Main extends React.Component {
 	}
 	render() {
 		return (
+			<div><div className='image'></div>
 			<div className='main'>
 				<h1>Witaj, świecie!</h1>
-				<h2>To jest przykładowa aplikacja wykorzystująca <img src='img/react-logo.png' /></h2>
-
+				<h2>To jest przykładowa aplikacja wykorzystująca</h2>
 			<p>
 				Łączy się z API dwóch serwisów: <span className='main_text-deco'><a href='http://tronalddump.io' target='_blank'>tronalddump.io</a></span> i <span className='main_text-deco'><a href='http://ghibliapi.herokuapp.com' target='_blank'>ghibliapi.herokuapp.com</a></span> i wyświetla kolejno cytaty oraz listę filmów.
 			</p>
@@ -22,6 +22,7 @@ class Main extends React.Component {
 			<p>
 				W zakładce z filmami użyta została tabela <span className='main_text-deco'>rc-table</span> umożliwiająca w szybki i prosty sposób stworzenie funkcjonalnej tabeli. Nawigacja to również komponent reactowy - <span className='main_text-deco'>rc-menu</span>. Wyświetlanie cytatów nie korzysta z żadnych predefiniowanych komponentów i zajęło twórcy najwięcej pupo-godzin :)
 			</p>
+			</div>
 			</div>
 		)
 	}
