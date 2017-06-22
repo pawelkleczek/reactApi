@@ -6,7 +6,7 @@ import {MovieBasicInfo, MovieAdditionalInfo} from './components.jsx'
 
 const apiKey = `api_key=8990436c90718240a2f238e1d25d0526`;
 const lang = `&language=pl-PL&region=PL`;
-const movieLess = `https://api.themoviedb.org/3/search/movie?`;
+const movieQuery = `https://api.themoviedb.org/3/search/movie?`;
 const movieMore = `https://api.themoviedb.org/3/movie/`;
 const appendTo = `&append_to_response=videos,images`;
 
@@ -25,7 +25,7 @@ class Tmdb extends React.Component {
 
 	fetch = () => {
 
-		let url = `${movieLess}${apiKey}&query=${this.state.title}${lang}`;
+		let url = `${movieQuery}${apiKey}&query=${this.state.title}${lang}`;
 
 		fetch(url).
 		then(resp => resp.json()).
