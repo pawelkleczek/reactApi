@@ -5,10 +5,10 @@ import React from 'react';
 import {MovieBasicInfo, MovieAdditionalInfo} from './components.jsx'
 
 const apiKey = `api_key=8990436c90718240a2f238e1d25d0526`;
-const lang = `&language=pl-PL&region=PL`;
+const langInfo = `&language=pl-PL&region=PL`;
 const movieQuery = `https://api.themoviedb.org/3/search/movie?`;
-const movieMore = `https://api.themoviedb.org/3/movie/`;
-const appendTo = `&append_to_response=videos,images`;
+const movieSecondQuery = `https://api.themoviedb.org/3/movie/`;
+const appendToSecondQuery = `&append_to_response=videos,images`;
 
 
 
@@ -56,19 +56,12 @@ class Tmdb extends React.Component {
 		then(resp => resp.json()).
 		then(json => {
 
-			console.log(json.genres.forEach(e => console.log(e.name)));
-
-			console.log({
-				homepage: json.homepage,
-				images: json.images.backdrops.map(e => e.file_path),
-				imdb: json.imdb_id,
-				overview: json.overview,
-				companies: json.production_companies.map(e => e.name),
-				countries: json.production_countries.map(e => e.name),
-				spoken_languages: json.spoken_languages.map(e => e.name),
-				tagline: json.tagline
+			this.setState({
+				movie: <MovieAdditionalInfo homepage={json.homepage} images={json.images.backdrops.map(e => e.file_path)} imdb={json.imdb_id} overview={json.overview} companies={json.production_companies.map(e => e.name)} countries={json.production_countries.map(e => e.name)} spoken={json.spoken_languages.map(e => e.name)} language={object.language} tagline={json.tagline} />
 			});
+
 			console.log(json);
+
 
 		}).catch(err => alert(err));
 

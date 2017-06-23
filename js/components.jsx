@@ -12,6 +12,7 @@ class MovieBasicInfo extends React.Component {
 			<div>
 				<header>
 					{this.props.title}
+					<br />
 				{this.props.originalTitle}
 			</header>
 				<main>{this.props.overview}</main>
