@@ -57,10 +57,8 @@ class Tmdb extends React.Component {
 		then(json => {
 
 			this.setState({
-				movieMore: <MovieAdditionalInfo homepage={json.homepage} images={json.images.backdrops.map(e => e.file_path)} imdb={json.imdb_id} overview={json.overview} companies={json.production_companies.map(e => e.name)} countries={json.production_countries.map(e => e.name)} spoken={json.spoken_languages.map(e => e.name)} language={object.language} tagline={json.tagline} />
-			});
-
-			console.log(json);
+				movieMore: <MovieAdditionalInfo homepage={json.homepage} images={json.images.backdrops.map(e => e.file_path)} imdb={json.imdb_id} overview={json.overview} companies={json.production_companies.map(e => e.name)} countries={json.production_countries.map(e => e.name)} spoken={json.spoken_languages.map(e => e.name)} language={json.language} tagline={json.tagline} />
+		});
 
 
 		}).catch(err => alert(err));

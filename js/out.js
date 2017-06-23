@@ -15579,6 +15579,7 @@ var MovieBasicInfo = function (_React$Component) {
 					'header',
 					null,
 					this.props.title,
+					_react2.default.createElement('br', null),
 					this.props.originalTitle
 				),
 				_react2.default.createElement(
@@ -15616,17 +15617,17 @@ var MovieAdditionalInfo = function (_React$Component2) {
 				_react2.default.createElement(
 					'header',
 					null,
-					this.props.title
+					this.props.homepage
 				),
 				_react2.default.createElement(
 					'main',
 					null,
-					this.props.overview
+					this.props.companies
 				),
 				_react2.default.createElement(
 					'footer',
 					null,
-					this.props.date
+					this.props.overview
 				)
 			);
 		}
@@ -16093,10 +16094,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 //poster sizes
 
 var apiKey = 'api_key=8990436c90718240a2f238e1d25d0526';
-var lang = '&language=pl-PL&region=PL';
-var movieLess = 'https://api.themoviedb.org/3/search/movie?';
-var movieMore = 'https://api.themoviedb.org/3/movie/';
-var appendTo = '&append_to_response=videos,images';
+var langInfo = '&language=pl-PL&region=PL';
+var movieQuery = 'https://api.themoviedb.org/3/search/movie?';
+var movieSecondQuery = 'https://api.themoviedb.org/3/movie/';
+var appendToSecondQuery = '&append_to_response=videos,images';
 
 var Tmdb = function (_React$Component) {
 	_inherits(Tmdb, _React$Component);
@@ -16108,7 +16109,7 @@ var Tmdb = function (_React$Component) {
 
 		_this.fetch = function () {
 
-			var url = '' + movieLess + apiKey + '&query=' + _this.state.title + lang;
+			var url = '' + movieQuery + apiKey + '&query=' + _this.state.title + langInfo;
 
 			fetch(url).then(function (resp) {
 				return resp.json();
@@ -16133,34 +16134,22 @@ var Tmdb = function (_React$Component) {
 					movie: _react2.default.createElement(_components.MovieBasicInfo, { title: object.title, originalTitle: object.originalTitle, overview: object.overview, date: object.date, poster: object.poster, voteAverage: object.voteAverage, voteCount: object.voteCount, language: object.language, image: object.image })
 				});
 
-				return fetch('' + movieMore + object.movieId + '?' + apiKey + appendTo);
+				return fetch('' + movieSecondQuery + object.movieId + '?' + apiKey + appendToSecondQuery);
 			}).then(function (resp) {
 				return resp.json();
 			}).then(function (json) {
 
-				console.log(json.genres.forEach(function (e) {
-					return console.log(e.name);
-				}));
-
-				console.log({
-					homepage: json.homepage,
-					images: json.images.backdrops.map(function (e) {
-						return e.file_path;
-					}),
-					imdb: json.imdb_id,
-					overview: json.overview,
-					companies: json.production_companies.map(function (e) {
-						return e.name;
-					}),
-					countries: json.production_countries.map(function (e) {
-						return e.name;
-					}),
-					spoken_languages: json.spoken_languages.map(function (e) {
-						return e.name;
-					}),
-					tagline: json.tagline
+				_this.setState({
+					movieMore: _react2.default.createElement(_components.MovieAdditionalInfo, { homepage: json.homepage, images: json.images.backdrops.map(function (e) {
+							return e.file_path;
+						}), imdb: json.imdb_id, overview: json.overview, companies: json.production_companies.map(function (e) {
+							return e.name;
+						}), countries: json.production_countries.map(function (e) {
+							return e.name;
+						}), spoken: json.spoken_languages.map(function (e) {
+							return e.name;
+						}), language: json.language, tagline: json.tagline })
 				});
-				console.log(json);
 			}).catch(function (err) {
 				return alert(err);
 			});
@@ -16179,8 +16168,8 @@ var Tmdb = function (_React$Component) {
 
 		_this.state = {
 			title: '',
-			movieBasic: null,
-			movieAdditional: null
+			movie: null,
+			movieMore: null
 		};
 		return _this;
 	}
@@ -16198,11 +16187,12 @@ var Tmdb = function (_React$Component) {
 						'label',
 						null,
 						'Movie title:',
-						_react2.default.createElement('input', { type: 'text', value: this.state.query, onChange: this.handleChange })
+						_react2.default.createElement('input', { type: 'text', value: this.state.title, onChange: this.handleChange })
 					),
 					_react2.default.createElement('input', { type: 'submit', value: 'Submit' })
 				),
-				this.state.movie && this.state.movie
+				this.state.movie && this.state.movie,
+				this.state.movieMore && this.state.movieMore
 			);
 		}
 	}]);

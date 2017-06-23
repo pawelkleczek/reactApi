@@ -30,10 +30,10 @@ class MovieAdditionalInfo extends React.Component {
 		return (
 			<div>
 				<header>
-					{this.props.title}
+					{this.props.homepage}
 				</header>
-				<main>{this.props.overview}</main>
-				<footer>{this.props.date}</footer>
+				<main>{this.props.companies}</main>
+				<footer>{this.props.overview}</footer>
 			</div>
 		)
 	}
