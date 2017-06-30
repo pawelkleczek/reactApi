@@ -8,6 +8,8 @@
 
 body {
   background-color: rgba(45, 183, 245, 0.3);
+  background-repeat: no-repeat;
+  background-size: contain;
 }
 
 .container {

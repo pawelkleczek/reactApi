@@ -17,7 +17,7 @@ class Tmdb extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			title: '',
+			value: '',
 			movie: null,
 			movieMore: null
 		}
@@ -25,7 +25,7 @@ class Tmdb extends React.Component {
 
 	fetch = () => {
 
-		let url = `${movieQuery}${apiKey}&query=${this.state.title}${langInfo}`;
+		let url = `${movieQuery}${apiKey}&query=${this.state.value}${langInfo}`;
 
 		fetch(url).
 		then(resp => resp.json()).
@@ -67,7 +67,7 @@ class Tmdb extends React.Component {
 
 	handleChange = (event) => {
 		this.setState({
-			title: event.target.value
+			value: event.target.value
 		});
 	}
 	handleSubmit = () => {
@@ -81,7 +81,7 @@ class Tmdb extends React.Component {
 					<form onSubmit={this.handleSubmit}>
 	        			<label>
 	          				Movie title:
-	          				<input type="text" value={this.state.title} onChange={this.handleChange} />
+	          				<input type="text" value={this.state.value} onChange={this.handleChange} />
 	        			</label>
 	        			<input type="submit" value="Submit" />
 	      			</form>

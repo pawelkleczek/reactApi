@@ -15578,18 +15578,22 @@ var MovieBasicInfo = function (_React$Component) {
 				_react2.default.createElement(
 					'header',
 					null,
+					'Tytu\u0142: ',
 					this.props.title,
 					_react2.default.createElement('br', null),
+					'Tytu\u0142 oryginalny: ',
 					this.props.originalTitle
 				),
 				_react2.default.createElement(
 					'main',
 					null,
+					'Opis: ',
 					this.props.overview
 				),
 				_react2.default.createElement(
 					'footer',
 					null,
+					'Data premiery: ',
 					this.props.date
 				)
 			);
@@ -15617,16 +15621,19 @@ var MovieAdditionalInfo = function (_React$Component2) {
 				_react2.default.createElement(
 					'header',
 					null,
+					'Strona internetowa: ',
 					this.props.homepage
 				),
 				_react2.default.createElement(
 					'main',
 					null,
+					'Wytw\xF3rnie: ',
 					this.props.companies
 				),
 				_react2.default.createElement(
 					'footer',
 					null,
+					'Opis 2: ',
 					this.props.overview
 				)
 			);
@@ -16109,7 +16116,7 @@ var Tmdb = function (_React$Component) {
 
 		_this.fetch = function () {
 
-			var url = '' + movieQuery + apiKey + '&query=' + _this.state.title + langInfo;
+			var url = '' + movieQuery + apiKey + '&query=' + _this.state.value + langInfo;
 
 			fetch(url).then(function (resp) {
 				return resp.json();
@@ -16157,7 +16164,7 @@ var Tmdb = function (_React$Component) {
 
 		_this.handleChange = function (event) {
 			_this.setState({
-				title: event.target.value
+				value: event.target.value
 			});
 		};
 
@@ -16167,7 +16174,7 @@ var Tmdb = function (_React$Component) {
 		};
 
 		_this.state = {
-			title: '',
+			value: '',
 			movie: null,
 			movieMore: null
 		};
@@ -16187,7 +16194,7 @@ var Tmdb = function (_React$Component) {
 						'label',
 						null,
 						'Movie title:',
-						_react2.default.createElement('input', { type: 'text', value: this.state.title, onChange: this.handleChange })
+						_react2.default.createElement('input', { type: 'text', value: this.state.value, onChange: this.handleChange })
 					),
 					_react2.default.createElement('input', { type: 'submit', value: 'Submit' })
 				),

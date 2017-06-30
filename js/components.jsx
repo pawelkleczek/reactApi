@@ -11,12 +11,12 @@ class MovieBasicInfo extends React.Component {
 		return (
 			<div>
 				<header>
-					{this.props.title}
+					Tytuł: {this.props.title}
 					<br />
-				{this.props.originalTitle}
+				Tytuł oryginalny: {this.props.originalTitle}
 			</header>
-				<main>{this.props.overview}</main>
-				<footer>{this.props.date}</footer>
+				<main>Opis: {this.props.overview}</main>
+				<footer>Data premiery: {this.props.date}</footer>
 			</div>
 		)
 	}
@@ -30,10 +30,10 @@ class MovieAdditionalInfo extends React.Component {
 		return (
 			<div>
 				<header>
-					{this.props.homepage}
+					Strona internetowa: {this.props.homepage}
 				</header>
-				<main>{this.props.companies}</main>
-				<footer>{this.props.overview}</footer>
+				<main>Wytwórnie: {this.props.companies}</main>
+				<footer>Opis 2: {this.props.overview}</footer>
 			</div>
 		)
 	}
